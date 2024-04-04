@@ -63,7 +63,7 @@ categoriesRouter.delete("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
     const [result] = await mysqlDb.getConnection().execute(`DELETE FROM categories WHERE id = ${id}`);
-    return res.send(result);
+    return res.send({Ok: "Removal was successful"});
   } catch (e) {
     return res.send({error: "You are breaking your link dependency"});
   }
