@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import mysql from "mysql2/promise";
 import mysqlDb from "./mysqlDb";
 import categoriesRouter from "./routers/categories";
+import placesRouter from "./routers/places";
 
 const app = express();
 
@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(express.static("./src/public"));
 
 app.use("/categories", categoriesRouter);
+app.use("/places", placesRouter);
 
 const run = async () => {
   await mysqlDb.init();
