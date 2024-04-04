@@ -38,7 +38,7 @@ categoriesRouter.post("/", async (req, res, next) => {
     return res.status(404).json({error: "You have sent an empty name"});
   }
 
-  const postCategory: CategoryFromFrontend = {
+  const postCategories: CategoryFromFrontend = {
     name: req.body.name,
     description: req.body.description.trim() === "" ? null : req.body.description,
   };
@@ -47,12 +47,12 @@ categoriesRouter.post("/", async (req, res, next) => {
     const [result] = await mysqlDb.getConnection().query(
       'INSERT INTO categories (name, description)' +
       'VALUES (?, ?)',
-      [postCategory.name, postCategory.description],
+      [postCategories.name, postCategories.description],
     ) as ResultSetHeader[];
 
     return res.send({
       id: result.insertId,
-      ...postCategory,
+      ...postCategories,
     });
   } catch (e) {
     next(e);

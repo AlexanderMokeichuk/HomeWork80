@@ -38,7 +38,7 @@ placesRouter.post("/", async (req, res, next) => {
     return res.status(404).json({error: "You have sent an empty name"});
   }
 
-  const postPlace: PlaceFromFrontend = {
+  const postPlaces: PlaceFromFrontend = {
     name: req.body.name,
     description: req.body.description.trim() === "" ? null : req.body.description,
   };
@@ -47,12 +47,12 @@ placesRouter.post("/", async (req, res, next) => {
     const [result] = await mysqlDb.getConnection().query(
       'INSERT INTO places (name, description)' +
       'VALUES (?, ?)',
-      [postPlace.name, postPlace.description],
+      [postPlaces.name, postPlaces.description],
     ) as ResultSetHeader[];
 
     return res.send({
       id: result.insertId,
-      ...postPlace,
+      ...postPlaces,
     });
   } catch (e) {
     next(e);
