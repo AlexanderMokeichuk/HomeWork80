@@ -1,7 +1,7 @@
 import express from "express";
 import mysqlDb from "../mysqlDb";
 import {ResultSetHeader, RowDataPacket} from "mysql2";
-import {CategoryFromFrontend, ItemsFromFrontend, PlaceFromFrontend} from "../type";
+import {ItemsFromFrontend} from "../type";
 import {imagesUpload} from "../multer";
 
 const itemsRouter = express.Router();
@@ -66,7 +66,7 @@ itemsRouter.post("/", imagesUpload.single("image"), async (req, res, next) => {
 itemsRouter.delete("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
-    const [result] = await mysqlDb.getConnection().execute(`DELETE FROM items WHERE id = ${id}`);
+    await mysqlDb.getConnection().execute(`DELETE FROM items WHERE id = ${id}`);
     return res.send({Ok: "Removal was successful"});
   } catch (e) {
     next(e);

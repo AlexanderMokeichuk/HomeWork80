@@ -1,7 +1,7 @@
 import express from "express";
 import mysqlDb from "../mysqlDb";
 import {ResultSetHeader, RowDataPacket} from "mysql2";
-import {CategoryFromFrontend, PlaceFromFrontend} from "../type";
+import {PlaceFromFrontend} from "../type";
 
 const placesRouter = express.Router();
 
@@ -59,10 +59,10 @@ placesRouter.post("/", async (req, res, next) => {
   }
 });
 
-placesRouter.delete("/:id", async (req, res, next) => {
+placesRouter.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = await mysqlDb.getConnection().execute(`DELETE FROM places WHERE id = ${id}`);
+    await mysqlDb.getConnection().execute(`DELETE FROM places WHERE id = ${id}`);
     return res.send({Ok: "Removal was successful"});
   } catch (e) {
     return res.send({error: "You are breaking your link dependency"});
