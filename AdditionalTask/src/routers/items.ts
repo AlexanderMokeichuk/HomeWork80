@@ -1,9 +1,8 @@
 import express from "express";
 import mysqlDb from "../mysqlDb";
 import {ResultSetHeader, RowDataPacket} from "mysql2";
-import {ItemsFromFrontend, PlaceFromFrontend} from "../type";
+import {ItemsFromFrontend} from "../type";
 import {imagesUpload} from "../multer";
-import placesRouter from "./places";
 
 const itemsRouter = express.Router();
 
