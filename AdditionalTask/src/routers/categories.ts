@@ -5,6 +5,7 @@ import {CategoryFromFrontend} from "../type";
 
 const categoriesRouter = express.Router();
 
+const dataChecking =
 categoriesRouter.get("/", async (req, res, next) => {
   try {
     const [result] = await mysqlDb.getConnection().query(`SELECT  categories.id, categories.name FROM categories`);
@@ -56,6 +57,38 @@ categoriesRouter.post("/", async (req, res, next) => {
     });
   } catch (e) {
     next(e);
+  }
+});
+
+categoriesRouter.put("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  if (!req.body.name) {
+    return res.status(400).json({error: "Incorrect data"});
+  }
+  if (req.body.name.trim() === "") {
+    return res.status(404).json({error: "You have sent an empty name"});
+  }
+
+  const editCategory: CategoryFromFrontend = {
+    name: req.body.name,
+    description: req.body.description.trim() === "" ? null : req.body.description,
+  };
+
+  const sql = `UPDATE categories SET name = ?, description = ? WHERE id = ${id}`;
+  const body = [editCategory.name, editCategory.description];
+  try {
+    const result = await mysqlDb.getConnection().query(sql, body) as RowDataPacket;
+    const response = result[0];
+    if (response.affectedRows === 0) {
+      return res.send({error: "Not Found!!"});
+    }
+
+    return res.send({
+      id: id,
+      ...editCategory,
+    });
+  } catch (e) {
+    next();
   }
 });
 
