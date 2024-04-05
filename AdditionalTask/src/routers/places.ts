@@ -21,7 +21,7 @@ placesRouter.get("/:id", async (req, res, next) => {
 
     const place = result[0];
     if (!place) {
-      return res.status(404).send({error: "Nor Found!!"});
+      return res.status(404).send({error: "Not Found!!"});
     }
 
     return res.send(place);
@@ -63,7 +63,7 @@ placesRouter.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     await mysqlDb.getConnection().execute(`DELETE FROM places WHERE id = ${id}`);
-    return res.send({Ok: "Removal was successful"});
+    return res.send("Ok");
   } catch (e) {
     return res.send({error: "You are breaking your link dependency"});
   }

@@ -7,7 +7,7 @@ const categoriesRouter = express.Router();
 
 categoriesRouter.get("/", async (req, res, next) => {
   try {
-    const [result] = await mysqlDb.getConnection().query(`SELECT categories.id, categories.name FROM categories`);
+    const [result] = await mysqlDb.getConnection().query(`SELECT  categories.id, categories.name FROM categories`);
     return res.send(result);
   } catch (e) {
     next(e);
@@ -21,7 +21,7 @@ categoriesRouter.get("/:id", async (req, res, next) => {
 
     const category = result[0];
     if (!category) {
-      return res.status(404).send({error: "Nor Found!!"});
+      return res.status(404).send({error: "Not Found!!"});
     }
 
     return res.send(category);
@@ -63,7 +63,8 @@ categoriesRouter.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     await mysqlDb.getConnection().execute(`DELETE FROM categories WHERE id = ${id}`);
-    return res.send({Ok: "Removal was successful"});
+
+    return res.send("Ok");
   } catch (e) {
     return res.send({error: "You are breaking your link dependency"});
   }

@@ -22,7 +22,7 @@ itemsRouter.get("/:id", async (req, res, next) => {
 
     const item = result[0];
     if (!item) {
-      return res.status(404).send({error: "Nor Found!!"});
+      return res.status(404).send({error: "Not Found!!"});
     }
 
     return res.send(item);
@@ -67,7 +67,7 @@ itemsRouter.delete("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
     await mysqlDb.getConnection().execute(`DELETE FROM items WHERE id = ${id}`);
-    return res.send({Ok: "Removal was successful"});
+    return res.send("Ok");
   } catch (e) {
     next(e);
   }
