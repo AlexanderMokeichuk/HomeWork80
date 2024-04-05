@@ -5,7 +5,6 @@ import {CategoryFromFrontend} from "../type";
 
 const categoriesRouter = express.Router();
 
-const dataChecking =
 categoriesRouter.get("/", async (req, res, next) => {
   try {
     const [result] = await mysqlDb.getConnection().query(`SELECT  categories.id, categories.name FROM categories`);
